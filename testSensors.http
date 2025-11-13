@@ -1,0 +1,32 @@
+### GET all sensors
+GET http://localhost:8080/sensors
+
+### POST create sensor
+POST http://localhost:8080/sensors
+Content-Type: application/json
+
+{
+  "name": "cardio"
+}
+
+### POST create another sensor
+POST http://localhost:8080/sensors
+Content-Type: application/json
+
+{
+  "name": "montre"
+}
+
+### GET sensor by id
+GET http://localhost:8080/sensors/1
+
+### PUT update sensor
+PUT http://localhost:8080/sensors/1
+Content-Type: application/json
+
+{
+  "name": "ceinture"
+}
+
+### DELETE sensor
+DELETE http://localhost:8080/sensors/1
