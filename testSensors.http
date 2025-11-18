@@ -10,11 +10,12 @@ Content-Type: application/json
 }
 
 ### POST create another sensor
-POST http://localhost:8080/sensors
+POST http://localhost:8080/games
 Content-Type: application/json
-
 {
-  "name": "montre"
+  "gameType": "tictactoe",
+  "playerCount": "2",
+    "boardSize": "2"
 }
 
 ### GET sensor by id
