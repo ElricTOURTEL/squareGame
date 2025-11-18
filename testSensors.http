@@ -9,13 +9,13 @@ Content-Type: application/json
   "name": "cardio"
 }
 
-### POST create another sensor
+### POST create a game
 POST http://localhost:8080/games
 Content-Type: application/json
 {
-  "gameType": "tictactoe",
-  "playerCount": "2",
-    "boardSize": "2"
+    "gameType": "tictactoe",
+    "playerCount": 2,
+    "boardSize": 3
 }
 
 ### GET sensor by id
