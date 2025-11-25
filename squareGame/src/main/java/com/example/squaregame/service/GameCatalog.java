@@ -1,6 +1,9 @@
 package com.example.squaregame.service;
 
 import com.example.squaregame.model.GameInfo;
+import fr.le_campus_numerique.square_games.engine.GameFactory;
+import fr.le_campus_numerique.square_games.engine.connectfour.ConnectFourGameFactory;
+import fr.le_campus_numerique.square_games.engine.tictactoe.TicTacToeGameFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -9,10 +12,14 @@ import java.util.*;
 public class GameCatalog {
     private final Map<String, GameFactory> factories = new HashMap<>();
 
-    public GameCatalog(List<GameFactory> gameFactories) {
-        for (GameFactory factory : gameFactories) {
-            factories.put(factory.getGameType(), factory);
-        }
+    public GameCatalog() {
+        // Register TicTacToe factory
+        TicTacToeGameFactory ticTacToeFactory = new TicTacToeGameFactory();
+        factories.put("tictactoe", ticTacToeFactory);
+
+        // Register Connect4 factory
+        ConnectFourGameFactory connect4Factory = new ConnectFourGameFactory();
+        factories.put("connect4", connect4Factory);
     }
 
     public GameFactory getFactory(String gameType) {
@@ -26,15 +33,18 @@ public class GameCatalog {
     public List<GameInfo> getAvailableGames() {
         List<GameInfo> games = new ArrayList<>();
 
-        for (GameFactory factory : factories.values()) {
-            String gameType = factory.getGameType();
+        for (Map.Entry<String, GameFactory> entry : factories.entrySet()) {
+            String gameType = entry.getKey();
+            GameFactory factory = entry.getValue();
             String description = getGameDescription(gameType);
+
+            List<String> boardSizes = getSupportedBoardSizes(factory);
             games.add(new GameInfo(
                 gameType,
                 description,
                 2,
                 2,
-                factory.getSupportedBoardSizes()
+                boardSizes.toArray(new String[0])
             ));
         }
 
@@ -47,6 +57,17 @@ public class GameCatalog {
             case "connect4" -> "Connect Four - align 4 tokens in a row";
             default -> "Square game";
         };
+    }
+
+    private List<String> getSupportedBoardSizes(GameFactory factory) {
+        // For TicTacToe: board size is always 3x3
+        // For Connect4: board size is always 7x6
+        if (factory instanceof TicTacToeGameFactory) {
+            return List.of("3x3");
+        } else if (factory instanceof ConnectFourGameFactory) {
+            return List.of("7x6");
+        }
+        return List.of();
     }
 
     public Set<String> getAvailableGameTypes() {

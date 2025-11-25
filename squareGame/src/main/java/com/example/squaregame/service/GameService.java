@@ -6,6 +6,7 @@ import com.example.squaregame.model.GameInfo;
 import com.example.squaregame.model.GameStatus;
 import com.example.squaregame.model.Move;
 import fr.le_campus_numerique.square_games.engine.CellPosition;
+import fr.le_campus_numerique.square_games.engine.GameFactory;
 import fr.le_campus_numerique.square_games.engine.Token;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,13 @@ public class GameService {
 
     public com.example.squaregame.model.Game createGame(String gameType, String boardSize) {
         GameFactory factory = gameCatalog.getFactory(gameType);
-        fr.le_campus_numerique.square_games.engine.Game engine = factory.createGame(boardSize);
+
+        // Parse boardSize (e.g., "3x3" -> boardSize=3, "7x6" -> boardSize=7)
+        int parsedBoardSize = Integer.parseInt(boardSize.split("x")[0]);
+
+        // Create game with 2 players by default
+        // Note: factory.createGame signature is createGame(playerCount, boardSize)
+        fr.le_campus_numerique.square_games.engine.Game engine = factory.createGame(2, parsedBoardSize);
 
         com.example.squaregame.model.Game game = new com.example.squaregame.model.Game(gameType, boardSize);
         game.setCurrentPlayerId(engine.getCurrentPlayerId());
