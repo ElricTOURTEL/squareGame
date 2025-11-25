@@ -1,0 +1,49 @@
+### Get available game types
+GET http://localhost:8080/api/games/types
+
+### Create a new Tic-Tac-Toe game
+POST http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "gameType": "tictactoe",
+  "boardSize": "3x3",
+  "playerOneName": "Alice",
+  "playerTwoName": "Bob"
+}
+
+### Get all games
+GET http://localhost:8080/api/games
+
+### Get a specific game (replace {gameId} with actual ID)
+GET http://localhost:8080/api/games/{gameId}
+
+### Make a move (replace {gameId} with actual ID)
+POST http://localhost:8080/api/games/{gameId}/moves
+Content-Type: application/json
+
+{
+  "x": 0,
+  "y": 0,
+  "playerToken": "X"
+}
+
+### Get game board (replace {gameId} with actual ID)
+GET http://localhost:8080/api/games/{gameId}/board
+
+### Get game moves history (replace {gameId} with actual ID)
+GET http://localhost:8080/api/games/{gameId}/moves
+
+### Delete a game (replace {gameId} with actual ID)
+DELETE http://localhost:8080/api/games/{gameId}
+
+### Create a Connect4 game
+POST http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+  "gameType": "connect4",
+  "boardSize": "7x6",
+  "playerOneName": "Charlie",
+  "playerTwoName": "Diana"
+}
